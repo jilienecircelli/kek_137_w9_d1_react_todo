@@ -1,5 +1,5 @@
 import Container from 'react-bootstrap/Container';
-import Navigation from './components/Nav';
+import Navigation from './components/Navigation';
 import ToDo from './views/ToDo';
 
 
@@ -8,7 +8,7 @@ export default function App() {
         <>
             <Navigation />
             <Container>
-                <ToDo/>
+                <ToDo />
             </Container>
         </>
     )

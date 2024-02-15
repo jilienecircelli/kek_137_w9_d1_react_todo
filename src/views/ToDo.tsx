@@ -1,38 +1,43 @@
 import { useState } from 'react';
-import ToDoDisplay from '../components/ToDoDisplay';
-import ToDoForm from '../components/ToDoForm';
-import { ToDoItem, ToDoFormObject } from '../types';
+import TaskDisplay from '../components/TaskDisplay';
+import TaskForm from '../components/TaskForm';
+import { Task, TaskFormObject } from '../types';
 
 
 type Props = {}
 
 export default function ToDo({}: Props) {
-    const [ todo, setToDo ] = useState<ToDoItem[]>([]);
+    const [ tasks, setTasks ] = useState<Task[]>([]);
 
-    const addNewToDo = (newToDoData: ToDoFormObject) => {
-        const newToDo:ToDoItem = {
-            id: todo.length + 1,
-            name: newToDoData.name!,
-            description: newToDoData.description!,
+    const addNewTask = (newTaskData: TaskFormObject) => {
+        let newTask:Task = {
+            id: tasks.length + 1,
+            name: newTaskData.name!,
+            description: newTaskData.description!,
             dateCreated: new Date(),
             completed: false
         }
-        if (newToDoData.dueDate){
-            newToDo.dueDate = new Date(newToDoData.dueDate)
+        if (newTaskData.dueDate){
+            newTask.dueDate = new Date(newTaskData.dueDate)
         }
-        setToDo([...todo, newToDo])
+        setTasks([...tasks, newTask])
     }
 
-    const sortToDo = (field:keyof ToDoItem) => {
-        const copiedToDo = [...todo]
-        copiedToDo.sort( (a:ToDoItem, b:ToDoItem) => a[field]! > b[field]! ? 1 : -1 )
-        setToDo(copiedToDo)
+    const changeCompletedStatus = (taskID:number) => {
+        let updatedTasks = tasks.map( t => t.id === taskID ? {...t, completed: !t.completed} : t )
+        setTasks(updatedTasks)
+    }
+
+    const sortTasks = (field:keyof Task) => {
+        let copiedTasks = [...tasks]
+        copiedTasks.sort( (a:Task, b:Task) => a[field]! > b[field]! ? 1 : -1 )
+        setTasks(copiedTasks)
     }
 
     return (
         <>
-            <ToDoForm addNewToDo={addNewToDo} />
-            <ToDoDisplay todos={todo} sortToDo={sortToDo} />
+            <TaskForm addNewTask={addNewTask} />
+            <TaskDisplay tasks={tasks} changeCompletedStatus={changeCompletedStatus} sortTasks={sortTasks} />
         </>
     )
 }

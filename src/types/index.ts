@@ -1,6 +1,5 @@
 
-
-export type ToDoItem = {
+export type Task = {
   id: number,
   name: string,
   description: string,
@@ -9,7 +8,7 @@ export type ToDoItem = {
   dueDate?: Date
 }
 
-export type ToDoFormObject = {
+export type TaskFormObject = {
   name:string,
   description:string,
   dueDate:string
